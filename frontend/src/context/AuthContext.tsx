@@ -38,7 +38,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             localStorage.setItem('user', JSON.stringify(user));
             setUser(user);
         } catch (error: any) {
-            throw new Error(error.response?.data?.message || 'Login failed');
+            console.error('Login Error:', error);
+            const message = error.response?.data?.message || error.message || 'Login failed. Please try again.';
+            throw new Error(message);
         }
     };
 
@@ -51,7 +53,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             localStorage.setItem('user', JSON.stringify(user));
             setUser(user);
         } catch (error: any) {
-            throw new Error(error.response?.data?.message || 'Registration failed');
+            console.error('Registration Error:', error);
+            const message = error.response?.data?.message || error.message || 'Registration failed. Please try again.';
+            throw new Error(message);
         }
     };
 

@@ -6,8 +6,18 @@ const cors = require('cors');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.set('trust proxy', 1); // Trust first proxy (Vercel)
+app.use(cors({
+    origin: '*', // Be more specific in production if possible
+    credentials: true
+}));
 app.use(express.json());
+
+// Request logging for debugging
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    next();
+});
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI)
